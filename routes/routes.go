@@ -1,14 +1,14 @@
 package routes
 
 import (
-    "net/http"
+	"net/http"
 
-    "github.com/basvdhoeven/personal-website-go/controllers"
+	"github.com/basvdhoeven/personal-website-go/controllers"
 )
 
 func RegisterRoutes() {
-    http.HandleFunc("/", controllers.HomeHandler)
-//     http.HandleFunc("/about", controllers.AboutHandler)
-//     http.HandleFunc("/portfolio", controllers.PortfolioHandler)
-//     http.HandleFunc("/contact", controllers.ContactHandler)
+	http.HandleFunc("/", controllers.HomeHandler)
+	http.HandleFunc("/ip", controllers.IpHandler)
+	// http.HandleFunc("/portfolio", controllers.PortfolioHandler)
+	// http.HandleFunc("/contact", controllers.ContactHandler)
 }

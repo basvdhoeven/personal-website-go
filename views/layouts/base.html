@@ -6,22 +6,26 @@
     <title>{{ .Title }}</title>
     <link rel="stylesheet" href="/static/css/tailwind.css">
 </head>
-<body class="bg-blue-500">
+<body class="bg-blue-500 m-4 text-white">
     <header>
-        <nav>
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/portfolio">Portfolio</a>
-            <a href="/contact">Contact</a>
+        <nav class="flex justify-between items-center sm:text-3xl mb-4">
+            <div>            
+                <a href="/" class="hover:text-gray-700">Bas van der Hoeven</a>
+            </div>
+            <div class="flex space-x-4">
+                <a href="/about" class="hover:text-gray-700">About</a>
+                <a href="/portfolio" class="hover:text-gray-700">Portfolio</a>
+                <a href="/contact" class="hover:text-gray-700">Contact</a>
+            </div>
         </nav>
     </header>
 
-    <main class="text-center">
+    <main>
         {{ template "content" . }}
     </main>
 
-    <footer>
-        <p>&copy; 2024 Your Name. All rights reserved.</p>
+    <footer class="py-4 text-center">
+        <p>&copy; 2024 Bas van der Hoeven. All rights reserved.</p>
     </footer>
 
     <script src="/static/js/main.js"></script>
