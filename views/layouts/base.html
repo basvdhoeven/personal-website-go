@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ .Title }}</title>
-    <link rel="stylesheet" href="/static/css/tailwind.css">
+    <link rel="stylesheet" href="/static/css/styles.css" />
 </head>
-<body class="bg-blue-500 m-4 text-white">
+<body>
     <header>
-        <nav class="flex justify-between items-center sm:text-3xl mb-4">
+        <nav>
             <div>            
-                <a href="/" class="hover:text-gray-700">Bas van der Hoeven</a>
+                <a href="/">Bas van der Hoeven</a>
             </div>
-            <div class="flex space-x-4">
-                <a href="/about" class="hover:text-gray-700">About</a>
-                <a href="/portfolio" class="hover:text-gray-700">Portfolio</a>
-                <a href="/contact" class="hover:text-gray-700">Contact</a>
+            <div >
+                <a href="/about">About</a>
+                <a href="/portfolio">Portfolio</a>
+                <a href="/contact">Contact</a>
             </div>
         </nav>
     </header>
@@ -24,10 +24,8 @@
         {{ template "content" . }}
     </main>
 
-    <footer class="py-4 text-center">
+    <footer>
         <p>&copy; 2024 Bas van der Hoeven. All rights reserved.</p>
     </footer>
-
-    <script src="/static/js/main.js"></script>
 </body>
 </html>
