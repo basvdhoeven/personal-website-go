@@ -9,6 +9,6 @@ import (
 func RegisterRoutes() {
 	http.HandleFunc("/", controllers.HomeHandler)
 	http.HandleFunc("/ip", controllers.IpHandler)
-	// http.HandleFunc("/portfolio", controllers.PortfolioHandler)
+	http.HandleFunc("/projects", controllers.ProjectsHandler)
 	// http.HandleFunc("/contact", controllers.ContactHandler)
 }
