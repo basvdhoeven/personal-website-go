@@ -8,7 +8,8 @@ import (
 
 func RegisterRoutes() {
 	http.HandleFunc("/", controllers.HomeHandler)
-	http.HandleFunc("/ip", controllers.IpHandler)
-	http.HandleFunc("/projects", controllers.ProjectsHandler)
 	http.HandleFunc("/about", controllers.AboutHandler)
+	http.HandleFunc("/projects", controllers.ProjectsHandler)
+	http.HandleFunc("/projects/ip", controllers.IpHandler)
+	http.HandleFunc("/projects/coordinates", controllers.CoordinatesHandler)
 }
