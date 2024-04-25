@@ -1,6 +1,24 @@
 {{ define "content" }}
 <div>
-    <h1>The distance is:</h1>
-    <h2>{{ .Distance }} km</body>
+    <h1>Distance calculator:</h1>
+    <form action="/projects/coordinates" method="GET">
+        <div>        
+            {{ with .ParseError.pointa }}
+            <p style="color:indianred">{{ . }}</p>
+            {{ end }}
+            <label for="pointa">Point A (lat,long):</label>
+            <input type="text" id="pointa" name="pointa" value="{{ .PointA }}"><br><br>
+        </div>
+        <div>            
+            {{ with .ParseError.pointb }}
+            <p style="color:indianred">{{ . }}</p>
+            {{ end }}
+            <label for="pointb">Point B (lat,long):</label>
+            <input type="text" id="pointb" name="pointb" value="{{ .PointB }}"><br><br>
+        </div>
+        <input type="submit" value="Submit">
+    </form> 
+    <a href="/projects/coordinates">clear</a>
+    <h2>{{ .Distance }}</h2>
 </div>
 {{ end }}

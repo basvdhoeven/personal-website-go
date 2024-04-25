@@ -27,6 +27,7 @@ func matchCoordsInString(s, regex string) (matches []string, ok bool) {
 	r := regexp.MustCompile(regex)
 	matches = r.FindAllString(s, -1)
 
+	// we should find ONLY a latitude and longitude
 	if len(matches) == 2 {
 		return matches, true
 	}

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 
@@ -11,37 +12,63 @@ func CoordinatesHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse and execute the template
 	tmpl, err := template.ParseFiles("views/layouts/base.html", "views/coords.html")
 	if err != nil {
-
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	alat, alng, err := coords.GetCoordsFromString(r.URL.Query().Get("a"))
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-
-	blat, blng, err := coords.GetCoordsFromString(r.URL.Query().Get("b"))
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-
-	distance, err := coords.CalculateDistance(alat, alng, blat, blng)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-
 	// Create a data structure to pass to the template
 	data := struct {
-		Title    string
-		Distance float64
+		Title      string
+		Distance   string
+		PointA     string
+		PointB     string
+		ParseError map[string]string
 	}{
-		Title:    "Coordinates",
-		Distance: distance,
+		Title:      "Coordinates",
+		ParseError: make(map[string]string),
+	}
+
+	data.PointA = r.URL.Query().Get("pointa")
+	data.PointB = r.URL.Query().Get("pointb")
+
+	if data.PointA == "" && data.PointB == "" {
+		if err := tmpl.Execute(w, data); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		return
+	}
+
+	alat, alng, erra := coords.GetCoordsFromString(data.PointA)
+	if erra != nil {
+		data.ParseError["pointa"] = "Could not retrieve coordinates from Point A"
+	}
+
+	blat, blng, errb := coords.GetCoordsFromString(data.PointB)
+	if errb != nil {
+		data.ParseError["pointb"] = "Could not retrieve coordinates from Point B"
+	}
+
+	var distance float64
+	if erra == nil && errb == nil {
+		distance, err = coords.CalculateDistance(alat, alng, blat, blng)
+		data.Distance = floatToDistanceString(distance)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
 	}
 
 	// Execute the template and write the output to the response
 	if err := tmpl.Execute(w, data); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func floatToDistanceString(distance float64) string {
+	// more than 1 km
+	if distance > 1 {
+		return fmt.Sprintf("%.2f km", distance)
+	}
+	// less than 1 km
+	distanceMeters := distance * 1000
+	return fmt.Sprintf("%.2f m", distanceMeters)
 }

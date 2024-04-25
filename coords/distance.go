@@ -10,7 +10,7 @@ type coords struct {
 	lng float64
 }
 
-const r = 6371 // average Earth radius in km
+const earthRadius = 6371 // average Earth radius in km
 
 func CalculateDistance(aLat, aLng, bLat, bLng float64) (float64, error) {
 	a := coords{aLat, aLng}
@@ -51,7 +51,7 @@ func haversineDistance(a, b coords) (distance float64) {
 
 	fraction := haversine(dLat) + math.Cos(aLat)*math.Cos(bLat)*(haversine(dLng))/2
 
-	return 2 * r * math.Acos(math.Sqrt(fraction))
+	return 2 * earthRadius * math.Asin(math.Sqrt(fraction))
 }
 
 func haversine(alpha float64) float64 {
@@ -59,5 +59,5 @@ func haversine(alpha float64) float64 {
 }
 
 func degToRad(degrees float64) float64 {
-	return degrees * (2 * math.Pi) / 360
+	return degrees * (math.Pi) / 180
 }
