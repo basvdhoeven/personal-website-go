@@ -22,6 +22,10 @@ func CoordinatesHandler(w http.ResponseWriter, r *http.Request) {
 		Distance   string
 		PointA     string
 		PointB     string
+		LatA       float64
+		LngA       float64
+		LatB       float64
+		LngB       float64
 		ParseError map[string]string
 	}{
 		Title:      "Coordinates",
@@ -38,19 +42,21 @@ func CoordinatesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	alat, alng, erra := coords.GetCoordsFromString(data.PointA)
+	var erra error
+	data.LatA, data.LngA, erra = coords.GetCoordsFromString(data.PointA)
 	if erra != nil {
 		data.ParseError["pointa"] = "Could not retrieve coordinates from Point A"
 	}
 
-	blat, blng, errb := coords.GetCoordsFromString(data.PointB)
+	var errb error
+	data.LatB, data.LngB, errb = coords.GetCoordsFromString(data.PointB)
 	if errb != nil {
 		data.ParseError["pointb"] = "Could not retrieve coordinates from Point B"
 	}
 
 	var distance float64
 	if erra == nil && errb == nil {
-		distance, err = coords.CalculateDistance(alat, alng, blat, blng)
+		distance, err = coords.CalculateDistance(data.LatA, data.LngA, data.LatB, data.LngB)
 		data.Distance = floatToDistanceString(distance)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

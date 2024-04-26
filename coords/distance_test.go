@@ -7,14 +7,14 @@ import (
 
 func TestCalculateDistance(t *testing.T) {
 	var tests = []struct {
-		a        coords
-		b        coords
+		a        Coords
+		b        Coords
 		distance float64
 		err      bool
 	}{
-		{coords{lat: 0, lng: 0}, coords{lat: 1, lng: 1}, 136.182823, false},
-		{coords{lat: 500, lng: 0}, coords{lat: 1, lng: 1}, 0, true},
-		{coords{lat: 0.000000000001, lng: 0}, coords{lat: 0, lng: 0}, 0, false},
+		{Coords{lat: 0, lng: 0}, Coords{lat: 1, lng: 1}, 136.182823, false},
+		{Coords{lat: 500, lng: 0}, Coords{lat: 1, lng: 1}, 0, true},
+		{Coords{lat: 0.000000000001, lng: 0}, Coords{lat: 0, lng: 0}, 0, false},
 	}
 
 	for _, tt := range tests {

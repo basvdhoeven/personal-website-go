@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-type coords struct {
+type Coords struct {
 	lat float64
 	lng float64
 }
@@ -13,13 +13,13 @@ type coords struct {
 const earthRadius = 6371 // average Earth radius in km
 
 func CalculateDistance(aLat, aLng, bLat, bLng float64) (float64, error) {
-	a := coords{aLat, aLng}
+	a := Coords{aLat, aLng}
 	err := a.validCoordinates()
 	if err != nil {
 		return 0, fmt.Errorf("coordinates of Point A are invalid; %w", err)
 	}
 
-	b := coords{bLat, bLng}
+	b := Coords{bLat, bLng}
 	err = b.validCoordinates()
 	if err != nil {
 		return 0, fmt.Errorf("coordinates of Point B are invalid; %w", err)
@@ -28,7 +28,7 @@ func CalculateDistance(aLat, aLng, bLat, bLng float64) (float64, error) {
 	return haversineDistance(a, b), nil
 }
 
-func (point coords) validCoordinates() error {
+func (point Coords) validCoordinates() error {
 	if math.Abs(point.lat) > 90 {
 		return fmt.Errorf("latitude must be between -90 and 90 degrees: (%f)", point.lat)
 	}
@@ -41,7 +41,7 @@ func (point coords) validCoordinates() error {
 }
 
 // See https://en.wikipedia.org/wiki/Haversine_formula
-func haversineDistance(a, b coords) (distance float64) {
+func haversineDistance(a, b Coords) (distance float64) {
 	// Convert degrees to radians
 	dLat := degToRad(b.lat - a.lat)
 	dLng := degToRad(b.lng - a.lng)

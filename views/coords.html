@@ -20,5 +20,56 @@
     </form> 
     <a href="/projects/coordinates">clear</a>
     <h2>{{ .Distance }}</h2>
+
+    <style>
+        #map {
+          width: 600px;
+          height: 400px;
+          margin: 0 auto; /* This will center the div horizontally */
+          color: black;
+        }
+        #map a:link, #map a:visited {
+            color: black;
+        }
+    </style>
+    <div id ="map"></div>
 </div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+    // Creating map options
+    var pointA = [{{ .LatA  }}, {{ .LngA }}]
+    var pointB = [{{ .LatB  }}, {{ .LngB }}]
+
+    if (pointA.every(function(coord) { return coord !== 0; })) {
+        // Creating a map object
+        var map = new L.map('map');
+        
+        // Creating a Layer object
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+    
+
+        var markerA = L.marker(pointA, {
+            title: 'A',
+            opacity: 1, // Increase the opacity of the marker
+        }).addTo(map);
+
+        if (pointB.every(function(coord) { return coord !== 0; })) {
+
+            var markerB = L.marker(pointB, {
+                title: 'B',
+                opacity: 1,
+            }).addTo(map);
+
+            map.fitBounds([pointA, pointB])
+
+            var line = L.polyline([pointA, pointB], {color: 'red', opacity: 0.5, dashArray: '20, 20'}).addTo(map);
+        } else {
+            map.setView(pointA, 14);
+        }
+        // Adding layer to the map
+        map.addLayer(layer);
+    }
+</script>
 {{ end }}

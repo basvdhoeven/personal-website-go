@@ -15,6 +15,10 @@ nav a:hover, .projects a:hover {
     color: black;
 }
 
+#map {
+    color: black;
+}
+
 body {
     background-color: rgb(87, 86, 86); 
     color: #f2f2f2;
