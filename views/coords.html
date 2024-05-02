@@ -2,22 +2,26 @@
 <div>
     <h1>Distance calculator:</h1>
     <form action="/projects/coordinates" method="GET">
-        <div>        
-            {{ with .ParseError.pointa }}
-            <p style="color:indianred">{{ . }}</p>
-            {{ end }}
-            <label for="pointa">Point A (lat,long):</label>
-            <input type="text" id="pointa" name="pointa" value="{{ .PointA }}"><br><br>
-        </div>
-        <div>            
-            {{ with .ParseError.pointb }}
-            <p style="color:indianred">{{ . }}</p>
-            {{ end }}
-            <label for="pointb">Point B (lat,long):</label>
-            <input type="text" id="pointb" name="pointb" value="{{ .PointB }}"><br><br>
-        </div>
+        {{ with .ParseError.pointa }}
+        <p style="color:indianred">{{ . }}</p>
+        {{ end }}
+        <label for="pointa">Point A:</label>
+        <input type="text" id="pointa" name="pointa" value="{{ .PointA }}"><br><br>
+        
+        {{ with .ParseError.pointb }}
+        <p style="color:indianred">{{ . }}</p>
+        {{ end }}
+        <label for="pointb">Point B:</label>
+        <input type="text" id="pointb" name="pointb" value="{{ .PointB }}"><br><br>
+
+        <input type="radio" id="latlng" name="coords_order" value="latlng" {{if eq .CoordsOrder "latlng"}}checked{{end}}>
+        <label for="latlng">Lat, Long</label><br>
+        <input type="radio" id="lnglat" name="coords_order" value="lnglat" {{if eq .CoordsOrder "lnglat"}}checked{{end}}>
+        <label for="lnglat">Long, Lat</label><br>
+        <br>
         <input type="submit" value="Submit">
     </form> 
+    <br>
     <a href="/projects/coordinates">clear</a>
     <h2>{{ .Distance }}</h2>
 
@@ -53,6 +57,11 @@
         var markerA = L.marker(pointA, {
             title: 'A',
             opacity: 1, // Increase the opacity of the marker
+            icon: L.icon({
+                iconUrl: '/static/images/marker-icon-A.png',
+                iconSize:     [25, 41],
+                iconAnchor:   [12.5, 40],
+            }),
         }).addTo(map);
 
         if (pointB.every(function(coord) { return coord !== 0; })) {
@@ -60,6 +69,11 @@
             var markerB = L.marker(pointB, {
                 title: 'B',
                 opacity: 1,
+                icon: L.icon({
+                    iconUrl: '/static/images/marker-icon-B.png',
+                    iconSize:     [25, 41],
+                    iconAnchor:   [12.5, 40]
+                }),
             }).addTo(map);
 
             map.fitBounds([pointA, pointB])

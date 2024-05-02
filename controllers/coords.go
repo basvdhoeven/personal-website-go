@@ -18,18 +18,20 @@ func CoordinatesHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Create a data structure to pass to the template
 	data := struct {
-		Title      string
-		Distance   string
-		PointA     string
-		PointB     string
-		LatA       float64
-		LngA       float64
-		LatB       float64
-		LngB       float64
-		ParseError map[string]string
+		Title       string
+		Distance    string
+		PointA      string
+		PointB      string
+		LatA        float64
+		LngA        float64
+		LatB        float64
+		LngB        float64
+		ParseError  map[string]string
+		CoordsOrder string
 	}{
-		Title:      "Coordinates",
-		ParseError: make(map[string]string),
+		Title:       "Coordinates",
+		ParseError:  make(map[string]string),
+		CoordsOrder: "latlng",
 	}
 
 	data.PointA = r.URL.Query().Get("pointa")
@@ -54,6 +56,12 @@ func CoordinatesHandler(w http.ResponseWriter, r *http.Request) {
 		data.ParseError["pointb"] = "Could not retrieve coordinates from Point B"
 	}
 
+	if r.URL.Query().Get("coords_order") == "lnglat" {
+		data.LatA, data.LngA = data.LngA, data.LatA
+		data.LatB, data.LngB = data.LngB, data.LatB
+	}
+
+	fmt.Println(data)
 	var distance float64
 	if erra == nil && errb == nil {
 		distance, err = coords.CalculateDistance(data.LatA, data.LngA, data.LatB, data.LngB)
