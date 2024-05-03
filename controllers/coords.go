@@ -29,13 +29,19 @@ func CoordinatesHandler(w http.ResponseWriter, r *http.Request) {
 		ParseError  map[string]string
 		CoordsOrder string
 	}{
-		Title:       "Coordinates",
+		Title:       "Coordinate Viewer",
 		ParseError:  make(map[string]string),
 		CoordsOrder: "latlng",
 	}
 
+
 	data.PointA = r.URL.Query().Get("pointa")
 	data.PointB = r.URL.Query().Get("pointb")
+
+	coordsOrder := r.URL.Query().Get("coords_order")
+	if coordsOrder != "" {
+		data.CoordsOrder = coordsOrder
+	}
 
 	if data.PointA == "" && data.PointB == "" {
 		if err := tmpl.Execute(w, data); err != nil {
@@ -52,16 +58,15 @@ func CoordinatesHandler(w http.ResponseWriter, r *http.Request) {
 
 	var errb error
 	data.LatB, data.LngB, errb = coords.GetCoordsFromString(data.PointB)
-	if errb != nil {
+	if errb != nil && data.PointB != "" {
 		data.ParseError["pointb"] = "Could not retrieve coordinates from Point B"
 	}
 
-	if r.URL.Query().Get("coords_order") == "lnglat" {
+	if data.CoordsOrder == "lnglat" {
 		data.LatA, data.LngA = data.LngA, data.LatA
 		data.LatB, data.LngB = data.LngB, data.LatB
 	}
 
-	fmt.Println(data)
 	var distance float64
 	if erra == nil && errb == nil {
 		distance, err = coords.CalculateDistance(data.LatA, data.LngA, data.LatB, data.LngB)

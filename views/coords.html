@@ -1,6 +1,6 @@
 {{ define "content" }}
 <div>
-    <h1>Distance calculator:</h1>
+    <h1>Coordinates viewer:</h1>
     <form action="/projects/coordinates" method="GET">
         {{ with .ParseError.pointa }}
         <p style="color:indianred">{{ . }}</p>
@@ -13,7 +13,6 @@
         {{ end }}
         <label for="pointb">Point B:</label>
         <input type="text" id="pointb" name="pointb" value="{{ .PointB }}"><br><br>
-
         <input type="radio" id="latlng" name="coords_order" value="latlng" {{if eq .CoordsOrder "latlng"}}checked{{end}}>
         <label for="latlng">Lat, Long</label><br>
         <input type="radio" id="lnglat" name="coords_order" value="lnglat" {{if eq .CoordsOrder "lnglat"}}checked{{end}}>
@@ -22,9 +21,6 @@
         <input type="submit" value="Submit">
     </form> 
     <br>
-    <a href="/projects/coordinates">clear</a>
-    <h2>{{ .Distance }}</h2>
-
     <style>
         #map {
           width: 600px;
@@ -37,6 +33,7 @@
         }
     </style>
     <div id ="map"></div>
+    <h2>{{if .Distance}}Distance: {{ .Distance }}{{end}}</h2></div>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
@@ -63,6 +60,7 @@
                 iconAnchor:   [12.5, 40],
             }),
         }).addTo(map);
+        markerA.bindTooltip("(" + pointA[0].toString() + ", " + pointA[1].toString() + ")").openTooltip();
 
         if (pointB.every(function(coord) { return coord !== 0; })) {
 
@@ -75,6 +73,7 @@
                     iconAnchor:   [12.5, 40]
                 }),
             }).addTo(map);
+            markerB.bindTooltip("(" + pointB[0].toString() + ", " + pointB[1].toString() + ")").openTooltip();
 
             map.fitBounds([pointA, pointB])
 
