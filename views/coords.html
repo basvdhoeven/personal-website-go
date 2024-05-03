@@ -1,6 +1,7 @@
 {{ define "content" }}
 <div>
-    <h1>Coordinates viewer:</h1>
+    <h1>Coordinates Viewer</h1>
+    <p>Will accept most strings containing coordinates.</p>
     <form action="/projects/coordinates" method="GET">
         {{ with .ParseError.pointa }}
         <p style="color:indianred">{{ . }}</p>

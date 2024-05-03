@@ -1,0 +1,41 @@
+volume_units:
+  L:
+    amount: 1.0
+    name:
+    - liter
+  mL:
+    amount: 0.001
+    name: milliliter
+  cm3:
+    amount: 0.001
+    name: cubic centiliter
+  dL:
+    amount: 0.1
+    name: deciliter
+  m3:
+    amount: 1000.0
+    name: cubic meter
+  mm3:
+    amount: 0.000001
+    name: cubic millimeter
+  gal:
+    amount: 3.78541
+    name: gallon (US)
+  qt:
+    amount: 0.946353
+    name: quart (US)
+  pt:
+    amount: 0.473176
+    name: pint (US)
+  fl oz:
+    amount: 0.0295735
+    name: fluid ounce (US)
+  cup:
+    amount: 0.237
+    name: cup (US)
+  tbsp:
+    amount: 0.015
+    name: tablespoon
+  tsp:
+    amount: 0.005
+    name: teaspoon

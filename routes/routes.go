@@ -12,4 +12,5 @@ func RegisterRoutes() {
 	http.HandleFunc("/projects", controllers.ProjectsHandler)
 	http.HandleFunc("/projects/ip", controllers.IpHandler)
 	http.HandleFunc("/projects/coordinates", controllers.CoordinatesHandler)
+	http.HandleFunc("/projects/unit", controllers.UnitHandler)
 }

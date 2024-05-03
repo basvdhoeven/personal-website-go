@@ -34,7 +34,6 @@ func CoordinatesHandler(w http.ResponseWriter, r *http.Request) {
 		CoordsOrder: "latlng",
 	}
 
-
 	data.PointA = r.URL.Query().Get("pointa")
 	data.PointB = r.URL.Query().Get("pointb")
 

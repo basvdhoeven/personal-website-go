@@ -1,0 +1,13 @@
+{{ define "content" }}
+<div>
+    <h1>Unit Converter</h1>
+    <p>Supports most units for volume, distance, and mass.</p>
+    <form action="/projects/unit" method="GET">
+        {{ with .ParseError }}
+        <p style="color:indianred">{{ . }}</p>
+        {{ end }}
+        <label for="pointa">Amount + Unit:</label>
+        <input type="text" id="unit" name="unit" value="{{ .Unit }}"><br><br>
+        <input type="submit" value="Submit">
+    </form> 
+{{ end }}
