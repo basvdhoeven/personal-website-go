@@ -3,3 +3,8 @@ pound:
   units:
   - pound
   - lb
+  - pounds
+ounce:
+  conversion: 0.02835
+  - ounce
+  - ounces

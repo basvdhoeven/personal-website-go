@@ -49,13 +49,21 @@ func convert(measure Measure, baseUnit baseUnit) (convertedMeasure string, detec
 		panic(err)
 	}
 
-	for detectedUnit, details := range conversions {
+	for unitName, details := range conversions {
 		for _, u := range details.Units {
-			if measure.Unit == u {
-				return strconv.FormatFloat(measure.Amount*details.ConversionRate, 'f', 3, 64) + " " + baseUnit.Unit, detectedUnit
+			if measure.Unit == u || measure.Unit == unitName {
+				return formatOutput(measure.Amount*details.ConversionRate, baseUnit.Unit), unitName
 			}
 		}
 	}
 
 	return "", ""
+}
+
+func formatOutput(amount float64, unit string) string {
+
+	if unit == "liter" && amount < 1 {
+		return strconv.FormatFloat(amount*1000, 'f', 1, 64) + " milliliter"
+	}
+	return strconv.FormatFloat(amount, 'f', 3, 64) + " " + unit
 }

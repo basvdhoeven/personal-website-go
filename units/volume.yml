@@ -1,23 +1,11 @@
-liter:
-  conversion: 1.0
-  units:
-  - l
 cubic decimeter:
   conversion: 1.0
   units:
   - dm3
-milliliter:
-  conversion: 0.001
-  units:
-  - ml
 cubic centimeter:
   converison: 0.001
   units:
   - cm3
-deciliter:
-  conversion: 0.1
-  units:
-  - dl
 cubic meter:
   conversion: 1000.0
   units:
@@ -30,18 +18,22 @@ gallon (US):
   conversion: 3.78541
   units:
   - gal
+  - gallon
 quart (US):
   conversion: 0.946353
   units: 
   - qt
+  - quart
 pint (US):
   conversion: 0.473176
   units: 
   - pt
+  - pint
 fluid ounce (US):
   conversion: 0.0295735
   units: 
   - fl oz
+  - fluid ounce
 cup (US):
   conversion: 0.237
   units: 
