@@ -4,7 +4,7 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/basvdhoeven/personal-website-go/units"
+	"github.com/basvdhoeven/personal-website-go/projects/units"
 )
 
 func UnitHandler(w http.ResponseWriter, r *http.Request) {
@@ -35,6 +35,9 @@ func UnitHandler(w http.ResponseWriter, r *http.Request) {
 			data.ParseError = "Could not retrieve amount and unit from input."
 		} else {
 			data.ConvertedInput, data.DetectedUnit = units.ConvertUnits(parsedMeasure)
+			if data.ConvertedInput == "" {
+				data.ParseError = "Could not convert the input."
+			}
 		}
 	}
 

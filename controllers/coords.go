@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/basvdhoeven/personal-website-go/coords"
+	"github.com/basvdhoeven/personal-website-go/projects/coords"
 )
 
 func CoordinatesHandler(w http.ResponseWriter, r *http.Request) {

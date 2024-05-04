@@ -6,5 +6,6 @@ pound:
   - pounds
 ounce:
   conversion: 0.02835
+  units:
   - ounce
   - ounces
