@@ -18,21 +18,24 @@ func UnitHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Create a data structure to pass to the template
 	data := struct {
-		Title      string
-		ParseError string
-		Unit       string
+		Title          string
+		ParseError     string
+		Input          string
+		DetectedUnit   string
+		ConvertedInput string
 	}{
 		Title: "Unit Converter",
 	}
 
-	data.Unit = r.URL.Query().Get("unit")
+	data.Input = r.URL.Query().Get("input")
 
-	if data.Unit != "" {
-		amount, unit, err := units.ParseUnitsFromString(data.Unit)
-	}
-
-	if err != nil {
-		data.ParseError = "Could not retrieve amount and unit"
+	if data.Input != "" {
+		parsedMeasure, err := units.ParseUnitsFromString(data.Input)
+		if err != nil {
+			data.ParseError = "Could not retrieve amount and unit from input."
+		} else {
+			data.ConvertedInput, data.DetectedUnit = units.ConvertUnits(parsedMeasure)
+		}
 	}
 
 	// Execute the template and write the output to the response

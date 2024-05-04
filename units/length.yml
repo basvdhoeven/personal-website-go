@@ -1,0 +1,25 @@
+inch:
+  conversion: 0.00254
+  units:
+  - inch
+  - inches
+foot:
+  conversion: 0.3048
+  units:
+  - foot
+  - feet
+  - ft
+yard:
+  conversion: 0.9144
+  units:
+  - yard
+  - yd
+mile:
+  converison: 1609.344
+  units:
+  - mile
+  - miles
+light-year:
+  conversion: 9460730472580800
+  units:
+  - ly

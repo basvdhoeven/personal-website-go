@@ -41,6 +41,13 @@ func TestParseUnitsFromString(t *testing.T) {
 			err:    false,
 		},
 		{
+			name:   "valid input with space in unit",
+			input:  "19 fl oz",
+			amount: 19,
+			unit:   "fl oz",
+			err:    false,
+		},
+		{
 			name:   "invalid input",
 			input:  "invalid",
 			amount: 0,
@@ -58,19 +65,19 @@ func TestParseUnitsFromString(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			amount, unit, err := ParseUnitsFromString(tc.input)
+			parsedMeasure, err := ParseUnitsFromString(tc.input)
 			if tc.err && err == nil {
 				t.Errorf("expected error but got nil")
 			} else if !tc.err && err != nil {
 				t.Errorf("unexpected error: %v", err)
 			}
 
-			if amount != tc.amount {
-				t.Errorf("expected amount %f but got %f", tc.amount, amount)
+			if parsedMeasure.Amount != tc.amount {
+				t.Errorf("expected amount %f but got %f", tc.amount, parsedMeasure.Amount)
 			}
 
-			if unit != tc.unit {
-				t.Errorf("expected unit %s but got %s", tc.unit, unit)
+			if parsedMeasure.Unit != tc.unit {
+				t.Errorf("expected unit %s but got %s", tc.unit, parsedMeasure.Unit)
 			}
 		})
 	}
