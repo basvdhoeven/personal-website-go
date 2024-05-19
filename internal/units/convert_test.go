@@ -37,9 +37,15 @@ func TestConvertUnits(t *testing.T) {
 		},
 	}
 
+	var baseUnits = BaseUnits{
+		{YamlFile: "volume.yml", Unit: "liter"},
+		{YamlFile: "length.yml", Unit: "meter"},
+		{YamlFile: "mass.yml", Unit: "kilogram"},
+	}
+
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			converted, detectedUnit := ConvertUnits(tc.input)
+			converted, detectedUnit := ConvertUnits(tc.input, baseUnits)
 			if converted != tc.expectedConverted {
 				t.Errorf("expected converted amount %s but got %s", tc.expectedConverted, converted)
 			}

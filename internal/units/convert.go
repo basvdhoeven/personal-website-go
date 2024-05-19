@@ -18,14 +18,10 @@ type baseUnit struct {
 	Unit     string
 }
 
-func ConvertUnits(measure Measure) (convertedMeasure string, detectedUnit string) {
-	measure.Unit = strings.ToLower(measure.Unit)
+type BaseUnits []baseUnit
 
-	var baseUnits = []baseUnit{
-		{YamlFile: "volume.yml", Unit: "liter"},
-		{YamlFile: "length.yml", Unit: "meter"},
-		{YamlFile: "mass.yml", Unit: "kilogram"},
-	}
+func ConvertUnits(measure Measure, baseUnits BaseUnits) (convertedMeasure string, detectedUnit string) {
+	measure.Unit = strings.ToLower(measure.Unit)
 
 	for _, baseUnit := range baseUnits {
 		convertedMeasure, detectedUnit = convert(measure, baseUnit)

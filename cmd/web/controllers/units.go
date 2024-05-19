@@ -36,7 +36,13 @@ func UnitHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			data.ParseError = "Could not retrieve amount and unit from input."
 		} else {
-			data.ConvertedInput, data.DetectedUnit = units.ConvertUnits(parsedMeasure)
+			var baseUnits = units.BaseUnits{
+				{YamlFile: "./internal/units/volume.yml", Unit: "liter"},
+				{YamlFile: "./internal/units/length.yml", Unit: "meter"},
+				{YamlFile: "./internal/units/mass.yml", Unit: "kilogram"},
+			}
+
+			data.ConvertedInput, data.DetectedUnit = units.ConvertUnits(parsedMeasure, baseUnits)
 			if data.ConvertedInput == "" {
 				data.ParseError = "Could not convert the input."
 			}

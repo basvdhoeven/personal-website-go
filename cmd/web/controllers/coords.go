@@ -13,7 +13,6 @@ func CoordinatesHandler(w http.ResponseWriter, r *http.Request) {
 	files := []string{
 		"./ui/html/base.tmpl",
 		"./ui/html/partials/nav.tmpl",
-		"./ui/html/partials/map-css.tmpl",
 		"./ui/html/pages/coords.tmpl",
 	}
 
