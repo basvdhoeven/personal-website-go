@@ -3,22 +3,28 @@ package controllers
 import (
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 
-	"github.com/basvdhoeven/personal-website-go/projects/coords"
+	"github.com/basvdhoeven/personal-website-go/internal/coords"
 )
 
 func CoordinatesHandler(w http.ResponseWriter, r *http.Request) {
-	// Parse and execute the template
-	tmpl, err := template.ParseFiles("views/layouts/base.html", "views/coords.html")
+	files := []string{
+		"./ui/html/base.tmpl",
+		"./ui/html/partials/nav.tmpl",
+		"./ui/html/partials/map-css.tmpl",
+		"./ui/html/pages/coords.tmpl",
+	}
+
+	tmpl, err := template.ParseFiles(files...)
 	if err != nil {
+		log.Print(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// Create a data structure to pass to the template
 	data := struct {
-		Title       string
 		Distance    string
 		PointA      string
 		PointB      string
@@ -29,7 +35,6 @@ func CoordinatesHandler(w http.ResponseWriter, r *http.Request) {
 		ParseError  map[string]string
 		CoordsOrder string
 	}{
-		Title:       "Coordinate Viewer",
 		ParseError:  make(map[string]string),
 		CoordsOrder: "latlng",
 	}
@@ -76,7 +81,8 @@ func CoordinatesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Execute the template and write the output to the response
-	if err := tmpl.Execute(w, data); err != nil {
+	if err := tmpl.ExecuteTemplate(w, "base", data); err != nil {
+		log.Print(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

@@ -6,23 +6,20 @@ import (
 )
 
 func ProjectsHandler(w http.ResponseWriter, r *http.Request) {
-	// Parse and execute the template
-	tmpl, err := template.ParseFiles("views/layouts/base.html", "views/projects.html")
-	if err != nil {
+	files := []string{
+		"./ui/html/base.tmpl",
+		"./ui/html/partials/nav.tmpl",
+		"./ui/html/pages/projects.tmpl",
+	}
 
+	tmpl, err := template.ParseFiles(files...)
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// Create a data structure to pass to the template
-	data := struct {
-		Title string
-	}{
-		Title: "Projects",
-	}
-
 	// Execute the template and write the output to the response
-	if err := tmpl.Execute(w, data); err != nil {
+	if err := tmpl.ExecuteTemplate(w, "base", nil); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

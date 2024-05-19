@@ -1,4 +1,6 @@
-{{ define "content" }}
+{{define "title"}}Unit Converter{{end}}
+
+{{define "main"}}
 <div>
     <h1>Unit Converter</h1>
     <p>Supports most measures for volume, length, and mass.</p>
@@ -14,4 +16,4 @@
     <h2>{{ .Input }} = {{ .ConvertedInput }}</h2></div>
     <p>Converted from {{ .DetectedUnit }}.</p>
     {{end}}
-{{ end }}
+{{end}}

@@ -2,30 +2,32 @@ package controllers
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 
-	"github.com/basvdhoeven/personal-website-go/projects/units"
+	"github.com/basvdhoeven/personal-website-go/internal/units"
 )
 
 func UnitHandler(w http.ResponseWriter, r *http.Request) {
-	// Parse and execute the template
-	tmpl, err := template.ParseFiles("views/layouts/base.html", "views/unit.html")
-	if err != nil {
+	files := []string{
+		"./ui/html/base.tmpl",
+		"./ui/html/partials/nav.tmpl",
+		"./ui/html/pages/unit.tmpl",
+	}
 
+	tmpl, err := template.ParseFiles(files...)
+	if err != nil {
+		log.Print(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// Create a data structure to pass to the template
 	data := struct {
-		Title          string
 		ParseError     string
 		Input          string
 		DetectedUnit   string
 		ConvertedInput string
-	}{
-		Title: "Unit Converter",
-	}
+	}{}
 
 	data.Input = r.URL.Query().Get("input")
 
@@ -42,7 +44,8 @@ func UnitHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Execute the template and write the output to the response
-	if err := tmpl.Execute(w, data); err != nil {
+	if err := tmpl.ExecuteTemplate(w, "base", data); err != nil {
+		log.Print(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

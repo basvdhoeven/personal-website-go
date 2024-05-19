@@ -1,0 +1,91 @@
+{{define "title"}}Coordinate Viewer{{end}}
+
+{{define "main"}}
+    <div>
+        <h1>Coordinates Viewer</h1>
+        <p>Will accept most text containing coordinates.</p>
+        <form action="/projects/coordinates" method="GET">
+            {{ with .ParseError.pointa }}
+            <p style="color:indianred">{{ . }}</p>
+            {{ end }}
+            <label for="pointa">Point A:</label>
+            <input type="text" id="pointa" name="pointa" value="{{ .PointA }}"><br><br>
+            
+            {{ with .ParseError.pointb }}
+            <p style="color:indianred">{{ . }}</p>
+            {{ end }}
+            <label for="pointb">Point B:</label>
+            <input type="text" id="pointb" name="pointb" value="{{ .PointB }}"><br><br>
+            <input type="radio" id="latlng" name="coords_order" value="latlng" {{if eq .CoordsOrder "latlng"}}checked{{end}}>
+            <label for="latlng">Lat, Long</label><br>
+            <input type="radio" id="lnglat" name="coords_order" value="lnglat" {{if eq .CoordsOrder "lnglat"}}checked{{end}}>
+            <label for="lnglat">Long, Lat</label><br>
+            <br>
+            <input type="submit" value="Submit">
+        </form> 
+        <br>
+        <style>
+            #map {
+            width: 600px;
+            height: 400px;
+            margin: 0 auto; /* This will center the div horizontally */
+            color: black;
+            }
+            #map a:link, #map a:visited {
+                color: black;
+            }
+        </style>
+        <div id ="map"></div>
+        <h2>{{if .Distance}}Distance: {{ .Distance }}{{end}}</h2></div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        // Creating map options
+        var pointA = [{{ .LatA  }}, {{ .LngA }}]
+        var pointB = [{{ .LatB  }}, {{ .LngB }}]
+
+        if (pointA.every(function(coord) { return coord !== 0; })) {
+            // Creating a map object
+            var map = new L.map('map');
+            
+            // Creating a Layer object
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+        
+
+            var markerA = L.marker(pointA, {
+                title: 'A',
+                opacity: 1, // Increase the opacity of the marker
+                icon: L.icon({
+                    iconUrl: '/static/img/marker-icon-A.png',
+                    iconSize:     [25, 41],
+                    iconAnchor:   [12.5, 40],
+                }),
+            }).addTo(map);
+            markerA.bindTooltip("(" + pointA[0].toString() + ", " + pointA[1].toString() + ")").openTooltip();
+
+            if (pointB.every(function(coord) { return coord !== 0; })) {
+
+                var markerB = L.marker(pointB, {
+                    title: 'B',
+                    opacity: 1,
+                    icon: L.icon({
+                        iconUrl: '/static/img/marker-icon-B.png',
+                        iconSize:     [25, 41],
+                        iconAnchor:   [12.5, 40]
+                    }),
+                }).addTo(map);
+                markerB.bindTooltip("(" + pointB[0].toString() + ", " + pointB[1].toString() + ")").openTooltip();
+
+                map.fitBounds([pointA, pointB])
+
+                var line = L.polyline([pointA, pointB], {color: 'red', opacity: 0.5, dashArray: '20, 20'}).addTo(map);
+            } else {
+                map.setView(pointA, 14);
+            }
+            // Adding layer to the map
+            map.addLayer(layer);
+        }
+    </script>
+{{end}}
