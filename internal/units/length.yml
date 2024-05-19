@@ -15,7 +15,7 @@ yard:
   - yard
   - yd
 mile:
-  converison: 1609.344
+  converision: 1609.344
   units:
   - mile
   - miles

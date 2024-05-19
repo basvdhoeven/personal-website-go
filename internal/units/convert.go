@@ -22,9 +22,9 @@ func ConvertUnits(measure Measure) (convertedMeasure string, detectedUnit string
 	measure.Unit = strings.ToLower(measure.Unit)
 
 	var baseUnits = []baseUnit{
-		{YamlFile: "./internal/units/volume.yml", Unit: "liter"},
-		{YamlFile: "./internal/units/length.yml", Unit: "meter"},
-		{YamlFile: "./internal/units/mass.yml", Unit: "kilogram"},
+		{YamlFile: "volume.yml", Unit: "liter"},
+		{YamlFile: "length.yml", Unit: "meter"},
+		{YamlFile: "mass.yml", Unit: "kilogram"},
 	}
 
 	for _, baseUnit := range baseUnits {
