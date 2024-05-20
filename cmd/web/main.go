@@ -5,13 +5,8 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
-
-	"github.com/basvdhoeven/personal-website-go/cmd/web/config"
-	"github.com/basvdhoeven/personal-website-go/cmd/web/controllers"
 )
 
-// Define an application struct to hold the application-wide dependencies for the
-// web application.
 type application struct {
 	logger *slog.Logger
 }
@@ -20,8 +15,8 @@ func main() {
 	addr := flag.String("addr", ":8080", "HTTP network address")
 	flag.Parse()
 
-	app := &config.Application{
-		Logger: slog.New(slog.NewTextHandler(os.Stdout, nil)),
+	app := &application{
+		logger: slog.New(slog.NewTextHandler(os.Stdout, nil)),
 	}
 
 	mux := http.NewServeMux()
@@ -29,16 +24,16 @@ func main() {
 	fileserver := http.FileServer(http.Dir("./ui/static/"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileserver))
 
-	mux.HandleFunc("/", controllers.HomeHandler(app))
-	mux.HandleFunc("/about", controllers.AboutHandler(app))
-	mux.HandleFunc("/projects", controllers.ProjectsHandler(&config.Application{}))
-	mux.HandleFunc("/projects/ip", controllers.IpHandler(app))
-	mux.HandleFunc("/projects/coordinates", controllers.CoordinatesHandler(app))
-	mux.HandleFunc("/projects/unit", controllers.UnitHandler(app))
+	mux.HandleFunc("/", app.homeHandler)
+	mux.HandleFunc("/about", app.aboutHandler)
+	mux.HandleFunc("/projects", app.projectHandler)
+	mux.HandleFunc("/projects/ip", app.ipHandler)
+	mux.HandleFunc("/projects/coordinates", app.coordinatesHandler)
+	mux.HandleFunc("/projects/unit", app.unitHandler)
 
-	app.Logger.Info("starting server", "addr", *addr)
+	app.logger.Info("starting server", "addr", *addr)
 
 	err := http.ListenAndServe(*addr, mux)
-	app.Logger.Error(err.Error())
+	app.logger.Error(err.Error())
 	os.Exit(1)
 }
