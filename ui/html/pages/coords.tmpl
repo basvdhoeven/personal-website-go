@@ -1,6 +1,7 @@
 {{define "title"}}Coordinate Viewer{{end}}
 
 {{define "main"}}
+{{with .CoordinatesData}}
     <div>
         <h1>Coordinates Viewer</h1>
         <p>Will accept most text containing coordinates.</p>
@@ -91,4 +92,5 @@
             map.addLayer(layer);
         }
     </script>
+{{end}}
 {{end}}

@@ -61,3 +61,13 @@ func haversine(alpha float64) float64 {
 func degToRad(degrees float64) float64 {
 	return degrees * (math.Pi) / 180
 }
+
+func FloatToDistanceString(distance float64) string {
+	// more than 1 km
+	if distance > 1 {
+		return fmt.Sprintf("%.2f km", distance)
+	}
+	// less than 1 km
+	distanceMeters := distance * 1000
+	return fmt.Sprintf("%.2f m", distanceMeters)
+}
