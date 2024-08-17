@@ -16,7 +16,6 @@ func TestGetCoordsFromString(t *testing.T) {
 		{"lat: 50 long: 7", false, 50, 7},
 		{"50,7", false, 50, 7},
 		{"lat: 50,25234 long: 0,4354", false, 50.25234, 0.4354},
-		{"lat: 50,25234 long: 0,4354", false, 50.25234, 0.4354},
 		{"50.25234,0.4354", false, 50.25234, 0.4354},
 		{"50", true, 0, 0},
 		{"", true, 0, 0},
