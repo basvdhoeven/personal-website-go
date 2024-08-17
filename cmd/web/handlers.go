@@ -39,6 +39,7 @@ func (app *application) coordinatesHandler(w http.ResponseWriter, r *http.Reques
 
 	if data.PointA == "" && data.PointB == "" {
 		app.render(w, r, http.StatusOK, "coords.tmpl", templateData{CoordinatesData: data})
+		return
 	}
 
 	var erra error
