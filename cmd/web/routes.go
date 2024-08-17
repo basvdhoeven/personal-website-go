@@ -3,7 +3,7 @@ package main
 import "net/http"
 
 // The routes() method returns a servemux containing our application routes.
-func (app *application) routes() *http.ServeMux {
+func (app *application) routes() http.Handler {
 	mux := http.NewServeMux()
 
 	fileserver := http.FileServer(http.Dir("./ui/static/"))
@@ -16,5 +16,5 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("/projects/coordinates", app.coordinatesHandler)
 	mux.HandleFunc("/projects/unit", app.unitHandler)
 
-	return mux
+	return app.recoverPanic(app.logRequest(mux))
 }

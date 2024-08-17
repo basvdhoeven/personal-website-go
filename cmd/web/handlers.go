@@ -20,7 +20,7 @@ func (app *application) aboutHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) ipHandler(w http.ResponseWriter, r *http.Request) {
-	app.render(w, r, http.StatusOK, "about.tmpl", templateData{Ip: r.RemoteAddr})
+	app.render(w, r, http.StatusOK, "ip.tmpl", templateData{Ip: r.RemoteAddr})
 }
 
 func (app *application) coordinatesHandler(w http.ResponseWriter, r *http.Request) {
