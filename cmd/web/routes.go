@@ -10,8 +10,7 @@ import (
 func (app *application) routes() http.Handler {
 	mux := http.NewServeMux()
 
-	fileserver := http.FileServerFS(ui.Files)
-	mux.Handle("/static/", http.StripPrefix("/static", fileserver))
+	mux.Handle("/static/", http.FileServerFS(ui.Files))
 
 	mux.HandleFunc("/", app.homeHandler)
 	mux.HandleFunc("/about", app.aboutHandler)
