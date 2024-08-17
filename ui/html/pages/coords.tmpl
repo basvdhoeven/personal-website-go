@@ -4,23 +4,24 @@
 {{with .CoordinatesData}}
     <div>
         <h1>Coordinates Viewer</h1>
-        <p>Will accept most text containing coordinates.</p>
+        <p>Will process most text containing coordinates in decimal degrees.</p>
         <form action="/projects/coordinates" method="GET">
             {{ with .ParseError.pointa }}
             <p style="color:indianred">{{ . }}</p>
             {{ end }}
-            <label for="pointa">Point A:</label>
+            <label for="pointa"><b>Point A</b>:</label>
             <input type="text" id="pointa" name="pointa" value="{{ .PointA }}"><br><br>
             
             {{ with .ParseError.pointb }}
             <p style="color:indianred">{{ . }}</p>
             {{ end }}
-            <label for="pointb">Point B:</label>
+            <label for="pointb"><b>Point B</b>:</label>
             <input type="text" id="pointb" name="pointb" value="{{ .PointB }}"><br><br>
+            <b>Order:</b><br>
             <input type="radio" id="latlng" name="coords_order" value="latlng" {{if eq .CoordsOrder "latlng"}}checked{{end}}>
-            <label for="latlng">Lat, Long</label><br>
+            <label for="latlng">latitude, longitude</label><br>
             <input type="radio" id="lnglat" name="coords_order" value="lnglat" {{if eq .CoordsOrder "lnglat"}}checked{{end}}>
-            <label for="lnglat">Long, Lat</label><br>
+            <label for="lnglat">longitude, latitude</label><br>
             <br>
             <input type="submit" value="Submit">
         </form> 
