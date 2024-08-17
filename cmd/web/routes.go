@@ -1,12 +1,16 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/basvdhoeven/personal-website-go/ui"
+)
 
 // The routes() method returns a servemux containing our application routes.
 func (app *application) routes() http.Handler {
 	mux := http.NewServeMux()
 
-	fileserver := http.FileServer(http.Dir("./ui/static/"))
+	fileserver := http.FileServerFS(ui.Files)
 	mux.Handle("/static/", http.StripPrefix("/static", fileserver))
 
 	mux.HandleFunc("/", app.homeHandler)
