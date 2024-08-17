@@ -1,11 +1,13 @@
 package main
 
 import (
+	"crypto/tls"
 	"flag"
 	"html/template"
 	"log/slog"
 	"net/http"
 	"os"
+	"time"
 )
 
 type application struct {
@@ -30,14 +32,18 @@ func main() {
 		templateCache: templateCache,
 	}
 
+	tlsConfig := &tls.Config{
+		CurvePreferences: []tls.CurveID{tls.X25519, tls.CurveP256},
+	}
+
 	srv := &http.Server{
-		Addr:    *addr,
-		Handler: app.routes(),
-		// Create a *log.Logger from our structured logger handler, which writes
-		// log entries at Error level, and assign it to the ErrorLog field. If
-		// you would prefer to log the server errors at Warn level instead, you
-		// could pass slog.LevelWarn as the final parameter.
-		ErrorLog: slog.NewLogLogger(logger.Handler(), slog.LevelError),
+		Addr:         *addr,
+		Handler:      app.routes(),
+		ErrorLog:     slog.NewLogLogger(logger.Handler(), slog.LevelError),
+		TLSConfig:    tlsConfig,
+		IdleTimeout:  time.Minute,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
 	}
 
 	logger.Info("starting server", "addr", *addr)
