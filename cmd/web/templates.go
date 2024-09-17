@@ -12,6 +12,12 @@ type templateData struct {
 	Ip              string
 	CoordinatesData CoordinatesData
 	UnitData        UnitData
+	JsonValidation  JsonValidation
+}
+
+type JsonValidation struct {
+	Data  string
+	Valid bool
 }
 
 func newTemplateCache() (map[string]*template.Template, error) {

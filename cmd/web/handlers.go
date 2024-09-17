@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"net/http"
 	"strings"
 
@@ -101,4 +103,27 @@ func (app *application) unitHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app.render(w, r, http.StatusOK, "unit.tmpl", templateData{UnitData: data})
+}
+
+func (app *application) jsonHandler(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, http.StatusOK, "json.tmpl", templateData{})
+}
+
+func (app *application) jsonSubmitHandler(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	jsonData := r.PostForm.Get("json")
+
+	valid := json.Valid([]byte(jsonData))
+	if valid {
+		var prettyJson bytes.Buffer
+		json.Indent(&prettyJson, []byte(jsonData), "", " ")
+		jsonData = prettyJson.String()
+	}
+
+	app.render(w, r, http.StatusOK, "json.tmpl", templateData{JsonValidation: JsonValidation{Data: jsonData, Valid: valid}})
 }

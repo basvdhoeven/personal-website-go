@@ -1,0 +1,15 @@
+{{define "title"}}JSON{{end}}
+
+{{define "main"}}
+    <div>
+        <h1>Pretty print and validate JSON</h1>
+        <form action="/tools/json/submit" method="post">
+            <textarea id="json" name="json" rows="30" cols="80">{{ .JsonValidation.Data }}</textarea>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+        {{ if .JsonValidation.Data }}
+            {{if .JsonValidation.Valid}}<h3 class="valid">Valid JSON</h3>{{else}}<h3 class="invalid">Invalid JSON</h3>{{end}}
+        {{ end }}
+    </div>
+{{end}}

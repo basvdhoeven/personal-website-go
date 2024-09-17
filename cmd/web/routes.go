@@ -19,6 +19,7 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("/tools/coordinates", app.coordinatesHandler)
 	mux.HandleFunc("/tools/unit", app.unitHandler)
 	mux.HandleFunc("/tools/json", app.jsonHandler)
+	mux.HandleFunc("/tools/json/submit", app.jsonSubmitHandler)
 
 	return app.recoverPanic(app.logRequest(mux))
 }

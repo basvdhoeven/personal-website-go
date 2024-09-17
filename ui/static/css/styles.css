@@ -46,3 +46,11 @@ main {
     width: 900px;
     max-width: 100%;
 }
+
+.valid {
+    color: #90EE90;
+}
+
+.invalid {
+    color: #FFB6C1;
+}
