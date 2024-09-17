@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/basvdhoeven/personal-website-go/internal/coords"
 	"github.com/basvdhoeven/personal-website-go/internal/units"
@@ -20,7 +21,13 @@ func (app *application) aboutHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) ipHandler(w http.ResponseWriter, r *http.Request) {
-	app.render(w, r, http.StatusOK, "ip.tmpl", templateData{Ip: r.RemoteAddr})
+	var ipAddress string
+	parts := strings.Split(r.RemoteAddr, ":")
+	if len(parts) > 0 {
+		ipAddress = parts[0]
+	}
+
+	app.render(w, r, http.StatusOK, "ip.tmpl", templateData{Ip: ipAddress})
 }
 
 func (app *application) coordinatesHandler(w http.ResponseWriter, r *http.Request) {
