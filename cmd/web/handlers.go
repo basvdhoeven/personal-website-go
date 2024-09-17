@@ -12,8 +12,8 @@ func (app *application) homeHandler(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, http.StatusOK, "home.tmpl", templateData{})
 }
 
-func (app *application) projectHandler(w http.ResponseWriter, r *http.Request) {
-	app.render(w, r, http.StatusOK, "projects.tmpl", templateData{})
+func (app *application) toolsHandler(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, http.StatusOK, "tools.tmpl", templateData{})
 }
 
 func (app *application) aboutHandler(w http.ResponseWriter, r *http.Request) {

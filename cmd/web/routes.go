@@ -14,10 +14,11 @@ func (app *application) routes() http.Handler {
 
 	mux.HandleFunc("/", app.homeHandler)
 	mux.HandleFunc("/about", app.aboutHandler)
-	mux.HandleFunc("/projects", app.projectHandler)
-	mux.HandleFunc("/projects/ip", app.ipHandler)
-	mux.HandleFunc("/projects/coordinates", app.coordinatesHandler)
-	mux.HandleFunc("/projects/unit", app.unitHandler)
+	mux.HandleFunc("/tools", app.toolsHandler)
+	mux.HandleFunc("/tools/ip", app.ipHandler)
+	mux.HandleFunc("/tools/coordinates", app.coordinatesHandler)
+	mux.HandleFunc("/tools/unit", app.unitHandler)
+	mux.HandleFunc("/tools/json", app.jsonHandler)
 
 	return app.recoverPanic(app.logRequest(mux))
 }

@@ -5,7 +5,7 @@
     <div>
         <h1>Coordinates Viewer</h1>
         <p>Will process most text containing coordinates in decimal degrees.</p>
-        <form action="/projects/coordinates" method="GET">
+        <form action="/tools/coordinates" method="GET">
             {{ with .ParseError.pointa }}
             <p style="color:indianred">{{ . }}</p>
             {{ end }}
