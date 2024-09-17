@@ -121,7 +121,7 @@ func (app *application) validateJsonPost(w http.ResponseWriter, r *http.Request)
 	valid := json.Valid([]byte(jsonData))
 	if valid {
 		var prettyJson bytes.Buffer
-		json.Indent(&prettyJson, []byte(jsonData), "", " ")
+		json.Indent(&prettyJson, []byte(jsonData), "", "    ")
 		jsonData = prettyJson.String()
 	}
 
