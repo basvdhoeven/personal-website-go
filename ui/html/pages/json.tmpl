@@ -3,7 +3,7 @@
 {{define "main"}}
     <div>
         <h1>Pretty print and validate JSON</h1>
-        <form action="/tools/json/submit" method="post">
+        <form action="/tools/json" method="post">
             <textarea id="json" name="json" rows="30" cols="80">{{ .JsonValidation.Data }}</textarea>
             <br>
             <input type="submit" value="Submit">
