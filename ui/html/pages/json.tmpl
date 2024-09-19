@@ -1,8 +1,8 @@
-{{define "title"}}Validate and pretty print JSON{{end}}
+{{define "title"}}Validate and indent JSON{{end}}
 
 {{define "main"}}
     <div>
-        <h1>Validate and pretty print JSON</h1>
+        <h1>Validate and indent JSON</h1>
         <form action="/tools/json" method="post">
             <textarea id="json" name="json" rows="30" cols="80">{{ .JsonValidation.Data }}</textarea>
             <br>
