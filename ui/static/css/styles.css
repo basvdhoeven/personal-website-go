@@ -27,6 +27,7 @@ body {
     margin-right: 2px;
     color: #f2f2f2;
     text-decoration: none;
+    font-family: "Monaco", monospace
 }
 
 .tools {
