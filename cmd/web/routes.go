@@ -17,8 +17,8 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("GET /tools", app.toolsHandler)
 	mux.HandleFunc("GET /tools/ip", app.ipHandler)
 	mux.HandleFunc("GET /tools/coordinates", app.coordinatesHandler)
-	mux.HandleFunc("GET /tools/unit/*", app.unitHandler)
-	mux.HandleFunc("POST /tools/unit/*", app.unitHandlerPost)
+	mux.HandleFunc("GET /tools/unit/", app.unitHandler)
+	mux.HandleFunc("POST /tools/unit/", app.unitHandlerPost)
 	mux.HandleFunc("GET /tools/json", app.validateJson)
 	mux.HandleFunc("POST /tools/json", app.validateJsonPost)
 
