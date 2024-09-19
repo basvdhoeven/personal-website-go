@@ -4,6 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"path"
+	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/basvdhoeven/personal-website-go/internal/coords"
@@ -80,29 +83,67 @@ func (app *application) coordinatesHandler(w http.ResponseWriter, r *http.Reques
 }
 
 func (app *application) unitHandler(w http.ResponseWriter, r *http.Request) {
-	data := UnitData{
-		Input: r.URL.Query().Get("input"),
-	}
+	switch quantity := path.Base(r.URL.Path); quantity {
+	case units.Mass, units.Length, units.Volume:
+		allUnits, err := units.GetUnits(quantity)
+		sort.Strings(allUnits)
 
-	if data.Input != "" {
-		parsedMeasure, err := units.ParseUnitsFromString(data.Input)
 		if err != nil {
-			data.ParseError = "Could not retrieve amount and unit from input."
-		} else {
-			var baseUnits = units.BaseUnits{
-				{YamlFile: "./internal/units/volume.yml", Unit: "liter"},
-				{YamlFile: "./internal/units/length.yml", Unit: "meter"},
-				{YamlFile: "./internal/units/mass.yml", Unit: "kilogram"},
-			}
-
-			data.ConvertedInput, data.DetectedUnit = units.ConvertUnits(parsedMeasure, baseUnits)
-			if data.ConvertedInput == "" {
-				data.ParseError = "Could not convert the input."
-			}
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
+
+		unitData := UnitConverter{
+			Quantity: quantity,
+			AllUnits: allUnits,
+		}
+		app.render(w, r, http.StatusOK, "unit_convert.tmpl", templateData{UnitConverter: unitData})
+	default:
+		app.render(w, r, http.StatusOK, "unit_landing.tmpl", templateData{})
+	}
+}
+
+func (app *application) unitHandlerPost(w http.ResponseWriter, r *http.Request) {
+	quantity := path.Base(r.URL.Path)
+
+	allUnits, err := units.GetUnits(quantity)
+	sort.Strings(allUnits)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
-	app.render(w, r, http.StatusOK, "unit.tmpl", templateData{UnitData: data})
+	err = r.ParseForm()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	amount := r.PostForm.Get("amount")
+	inputUnit := r.PostForm.Get("input_unit")
+	outputUnit := r.PostForm.Get("output_unit")
+
+	amountFloat, err := strconv.ParseFloat(amount, 64)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	convertedAmount, err := units.Convert(quantity, inputUnit, outputUnit, amountFloat)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	app.render(w, r, http.StatusOK, "unit_convert.tmpl", templateData{
+		UnitConverter: UnitConverter{
+			Quantity:   quantity,
+			AllUnits:   allUnits,
+			Input:      amountFloat,
+			InputUnit:  inputUnit,
+			Output:     convertedAmount,
+			OutputUnit: outputUnit,
+		},
+	})
 }
 
 func (app *application) validateJson(w http.ResponseWriter, r *http.Request) {

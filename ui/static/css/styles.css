@@ -10,17 +10,13 @@ nav a {
     text-decoration: none;
 }
 
-nav a:hover, .tools a:hover {
-    background-color: #ddd;
-    color: black;
-}
-
 body {
     background-color: rgb(87, 86, 86); 
     color: #f2f2f2;
+    font-family: "monaco", monospace
 }
 
-.tools a {
+.boxes a {
     background-color: #333;
     padding: 14px 16px;
     margin-left: 2px;
@@ -30,7 +26,7 @@ body {
     font-family: "Monaco", monospace
 }
 
-.tools {
+.boxes {
     padding: 18px;
 }
 
@@ -54,4 +50,9 @@ main {
 
 .invalid {
     color: #FFB6C1;
+}
+
+.hover a:hover {
+    background-color: #ddd;
+    color: black;
 }

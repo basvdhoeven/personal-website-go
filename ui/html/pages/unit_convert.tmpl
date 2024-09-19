@@ -1,0 +1,34 @@
+{{define "title"}}Unit Converter - {{.UnitConverter.Quantity}}{{end}}
+
+{{define "main"}}
+    <div>
+        <h1>Unit Converter - {{.UnitConverter.Quantity}}</h1>
+    </div>
+    <form action="/tools/unit/{{.UnitConverter.Quantity}}" method="post">
+        <fieldset>
+        <label for="amount">Amount:</label><br>
+        <input type="text" id="amount" name="amount" value="{{.UnitConverter.Input}}"><br>
+        <label for="input_unit">Input unit:</label><br>
+        <select name="input_unit" id="input_unit">
+            {{range .UnitConverter.AllUnits}}
+               <option value="{{.}}" {{if eq . $.UnitConverter.InputUnit}}selected{{end}}>{{.}}</option>
+            {{end}}
+        </select><br>
+        </fieldset>
+        <br>
+        <fieldset>
+        <label for="output_unit">Output unit:</label><br>
+        <select name="output_unit" id="output_unit">
+            {{range .UnitConverter.AllUnits}}
+               <option value="{{.}}" {{if eq . $.UnitConverter.OutputUnit}}selected{{end}}>{{.}}</option>
+            {{end}}
+        </select><br>
+        </fieldset>
+        <br>
+        <input type="submit" value="Submit">
+        <br>
+        {{if .UnitConverter.Output}}
+            {{.UnitConverter.Input}} {{.UnitConverter.InputUnit}} = {{.UnitConverter.Output}} {{.UnitConverter.OutputUnit}}
+        {{end}}
+    </form>
+{{end}}

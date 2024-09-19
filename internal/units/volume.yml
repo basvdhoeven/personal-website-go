@@ -1,50 +1,12 @@
-cubic decimeter:
-  conversion: 1.0
-  units:
-  - dm3
-cubic centimeter:
-  converison: 0.001
-  units:
-  - cm3
-cubic meter:
-  conversion: 1000.0
-  units:
-  - m3
-cubic millimeter:
-  conversion: 0.000001
-  units: 
-  - mm3
-gallon (US):
-  conversion: 3.78541
-  units:
-  - gal
-  - gallon
-quart (US):
-  conversion: 0.946353
-  units: 
-  - qt
-  - quart
-pint (US):
-  conversion: 0.473176
-  units: 
-  - pt
-  - pint
-fluid ounce (US):
-  conversion: 0.0295735
-  units: 
-  - fl oz
-  - fluid ounce
-cup (US):
-  conversion: 0.237
-  units: 
-  - cup
-  - cups
-tablespoon:
-  conversion: 0.015
-  units: 
-  - tbsp
-  - tb
-teaspoon:
-  conversion: 0.005
-  units: 
-  - tsp
+cubic decimeter: 1.0
+cubic centimeter: 0.001
+cubic meter: 1000.0
+cubic millimeter: 0.000001
+gallon (US): 3.78541
+quart (US): 0.946353
+pint (US): 0.473176
+fluid ounce (US): 0.0295735
+cup (US): 0.237
+tablespoon: 0.015
+teaspoon: 0.005
+liter: 1

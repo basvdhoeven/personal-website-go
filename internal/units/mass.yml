@@ -1,11 +1,3 @@
-pound:
-  conversion: 0.45359237
-  units:
-  - pound
-  - lb
-  - pounds
-ounce:
-  conversion: 0.02835
-  units:
-  - ounce
-  - ounces
+pound: 0.45359237
+ounce: 0.02835
+kilogram: 1
