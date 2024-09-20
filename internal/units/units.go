@@ -1,8 +1,10 @@
 package units
 
 import (
+	"errors"
 	"fmt"
 	"os"
+	"sort"
 
 	"gopkg.in/yaml.v3"
 )
@@ -13,45 +15,70 @@ const (
 	Volume = "volume"
 )
 
-func GetUnits(quantity string) ([]string, error) {
-	units, err := loadUnitData(quantity)
-	if err != nil {
-		return nil, fmt.Errorf("loading unit data; %w", err)
-	}
-
-	unitSlice := make([]string, 0, len(units))
-	for unit := range units {
-		unitSlice = append(unitSlice, unit)
-	}
-
-	return unitSlice, nil
+type UnitConverter struct {
+	convRates map[string]map[string]float64
 }
 
-func Convert(quantity, inputUnit, outputUnit string, amount float64) (float64, error) {
-	unitData, err := loadUnitData(quantity)
-	if err != nil {
-		return 0, fmt.Errorf("loading unit data; %w", err)
+func NewUnitConverter() *UnitConverter {
+	return &UnitConverter{
+		convRates: make(map[string]map[string]float64),
+	}
+}
+
+func (uc *UnitConverter) LoadConvRatesFromYaml(paths map[string]string) error {
+	for quantity, path := range paths {
+		data, err := os.ReadFile(path)
+		if err != nil {
+			return fmt.Errorf("error reading conv rates YAML file: %v", err)
+		}
+
+		// Unmarshal YAML into a map
+		var units map[string]float64
+		err = yaml.Unmarshal(data, &units)
+		if err != nil {
+			return fmt.Errorf("error unmarshaling conv rates YAML: %v", err)
+		}
+
+		uc.convRates[quantity] = units
 	}
 
-	conversionRate := unitData[inputUnit] / unitData[outputUnit]
+	return nil
+}
+
+func (uc *UnitConverter) GetUnits(quantity string) ([]string, error) {
+	quantityData, ok := uc.convRates[quantity]
+	if !ok {
+		return nil, errors.New("could not find quantity data")
+	}
+
+	units := make([]string, 0, len(quantityData))
+	for u := range quantityData {
+		units = append(units, u)
+	}
+
+	sort.Strings(units)
+
+	return units, nil
+}
+
+func (uc *UnitConverter) Convert(quantity, inputUnit, outputUnit string, amount float64) (float64, error) {
+	quantityData, ok := uc.convRates[quantity]
+	if !ok {
+		return 0, errors.New("could not find quantity data")
+	}
+	convRateInput, ok := quantityData[inputUnit]
+	if !ok {
+		return 0, errors.New("could not retrieve conversion rate of input unit")
+	}
+
+	convRateOutput, ok := quantityData[outputUnit]
+	if !ok {
+		return 0, errors.New("could not retrieve conversion rate of output unit")
+	}
+
+	conversionRate := convRateInput / convRateOutput
 
 	convertedAmount := amount * conversionRate
 
 	return convertedAmount, nil
-}
-
-func loadUnitData(quantity string) (map[string]float64, error) {
-	data, err := os.ReadFile("./internal/units/" + quantity + ".yml")
-	if err != nil {
-		return nil, fmt.Errorf("error reading file: %v", err)
-	}
-
-	// Unmarshal YAML into a map
-	var units map[string]float64
-	err = yaml.Unmarshal(data, &units)
-	if err != nil {
-		return nil, fmt.Errorf("error unmarshaling YAML: %v", err)
-	}
-
-	return units, nil
 }

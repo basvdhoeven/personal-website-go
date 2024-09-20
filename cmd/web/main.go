@@ -8,11 +8,14 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/basvdhoeven/personal-website-go/internal/units"
 )
 
 type application struct {
 	logger        *slog.Logger
 	templateCache map[string]*template.Template
+	unitConverter *units.UnitConverter
 }
 
 func main() {
@@ -27,9 +30,18 @@ func main() {
 		os.Exit(1)
 	}
 
+	unitConverter := units.NewUnitConverter()
+	unitMapData := map[string]string{
+		"length": "./config/units/length.yml",
+		"mass":   "./config/units/mass.yml",
+		"volume": "./config/units/volumen.yml",
+	}
+	unitConverter.LoadConvRatesFromYaml(unitMapData)
+
 	app := &application{
 		logger:        logger,
 		templateCache: templateCache,
+		unitConverter: unitConverter,
 	}
 
 	tlsConfig := &tls.Config{

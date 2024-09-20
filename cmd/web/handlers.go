@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"path"
-	"sort"
 	"strconv"
 	"strings"
 
@@ -85,8 +84,7 @@ func (app *application) coordinatesHandler(w http.ResponseWriter, r *http.Reques
 func (app *application) unitHandler(w http.ResponseWriter, r *http.Request) {
 	switch quantity := path.Base(r.URL.Path); quantity {
 	case units.Mass, units.Length, units.Volume:
-		allUnits, err := units.GetUnits(quantity)
-		sort.Strings(allUnits)
+		allUnits, err := app.unitConverter.GetUnits(quantity)
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -105,9 +103,7 @@ func (app *application) unitHandler(w http.ResponseWriter, r *http.Request) {
 func (app *application) unitHandlerPost(w http.ResponseWriter, r *http.Request) {
 	quantity := path.Base(r.URL.Path)
 
-	allUnits, err := units.GetUnits(quantity)
-	sort.Strings(allUnits)
-
+	allUnits, err := app.unitConverter.GetUnits(quantity)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -128,7 +124,7 @@ func (app *application) unitHandlerPost(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	convertedAmount, err := units.Convert(quantity, inputUnit, outputUnit, amountFloat)
+	convertedAmount, err := app.unitConverter.Convert(quantity, inputUnit, outputUnit, amountFloat)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
