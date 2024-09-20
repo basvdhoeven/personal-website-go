@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/basvdhoeven/personal-website-go/internal/coords"
-	"github.com/basvdhoeven/personal-website-go/internal/units"
 )
 
 func (app *application) homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -83,8 +82,8 @@ func (app *application) coordinatesHandler(w http.ResponseWriter, r *http.Reques
 
 func (app *application) unitHandler(w http.ResponseWriter, r *http.Request) {
 	switch quantity := path.Base(r.URL.Path); quantity {
-	case units.Mass, units.Length, units.Volume:
-		allUnits, err := app.unitConverter.GetUnits(quantity)
+	case "mass", "length", "volume":
+		allUnits, err := app.unitConverter.GetAllUnits(quantity)
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -103,7 +102,7 @@ func (app *application) unitHandler(w http.ResponseWriter, r *http.Request) {
 func (app *application) unitHandlerPost(w http.ResponseWriter, r *http.Request) {
 	quantity := path.Base(r.URL.Path)
 
-	allUnits, err := app.unitConverter.GetUnits(quantity)
+	allUnits, err := app.unitConverter.GetAllUnits(quantity)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

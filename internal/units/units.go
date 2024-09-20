@@ -9,12 +9,6 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const (
-	Mass   = "mass"
-	Length = "length"
-	Volume = "volume"
-)
-
 type UnitConverter struct {
 	convRates map[string]map[string]float64
 }
@@ -45,7 +39,7 @@ func (uc *UnitConverter) LoadConvRatesFromYaml(paths map[string]string) error {
 	return nil
 }
 
-func (uc *UnitConverter) GetUnits(quantity string) ([]string, error) {
+func (uc *UnitConverter) GetAllUnits(quantity string) ([]string, error) {
 	quantityData, ok := uc.convRates[quantity]
 	if !ok {
 		return nil, errors.New("could not find quantity data")
