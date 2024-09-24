@@ -24,13 +24,19 @@ func (app *application) aboutHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) ipHandler(w http.ResponseWriter, r *http.Request) {
-	var ipAddress string
-	parts := strings.Split(r.RemoteAddr, ":")
-	if len(parts) > 0 {
-		ipAddress = parts[0]
+	// When deployed in Google Cloud Run, the forwarded ip can
+	// be found in the "X-Forwarded-For" header
+	ip := r.Header.Get("X-Forwarded-For")
+
+	// if deployed locally, get ip from RemoteAddr field of request
+	if ip == "" {
+		parts := strings.Split(r.RemoteAddr, ":")
+		if len(parts) > 0 {
+			ip = parts[0]
+		}
 	}
 
-	app.render(w, r, http.StatusOK, "ip.tmpl", templateData{Ip: ipAddress})
+	app.render(w, r, http.StatusOK, "ip.tmpl", templateData{Ip: ip})
 }
 
 func (app *application) coordinatesHandler(w http.ResponseWriter, r *http.Request) {
