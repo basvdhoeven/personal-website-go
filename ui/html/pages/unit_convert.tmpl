@@ -8,6 +8,10 @@
         <fieldset>
         <label for="amount">Amount:</label><br>
         <input type="text" id="amount" name="amount" value="{{.UnitConverter.Input}}"><br>
+        {{if .UnitConverter.InputError}}
+        <p class="invalid">Please provide a valid amount</p>
+        {{end}}
+        <br>
         <label for="input_unit">Input unit:</label><br>
         <select name="input_unit" id="input_unit">
             {{range .UnitConverter.AllUnits}}

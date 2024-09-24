@@ -95,7 +95,7 @@ func (app *application) unitHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 
-		unitData := UnitConverter{
+		unitData := UnitConverterData{
 			Quantity: quantity,
 			AllUnits: allUnits,
 		}
@@ -125,7 +125,16 @@ func (app *application) unitHandlerPost(w http.ResponseWriter, r *http.Request) 
 
 	amountFloat, err := strconv.ParseFloat(amount, 64)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		app.render(w, r, http.StatusOK, "unit_convert.tmpl", templateData{
+			UnitConverter: UnitConverterData{
+				Quantity:   quantity,
+				AllUnits:   allUnits,
+				Input:      amount,
+				InputUnit:  inputUnit,
+				OutputUnit: outputUnit,
+				InputError: true,
+			},
+		})
 		return
 	}
 
@@ -136,10 +145,10 @@ func (app *application) unitHandlerPost(w http.ResponseWriter, r *http.Request) 
 	}
 
 	app.render(w, r, http.StatusOK, "unit_convert.tmpl", templateData{
-		UnitConverter: UnitConverter{
+		UnitConverter: UnitConverterData{
 			Quantity:   quantity,
 			AllUnits:   allUnits,
-			Input:      amountFloat,
+			Input:      amount,
 			InputUnit:  inputUnit,
 			Output:     convertedAmount,
 			OutputUnit: outputUnit,

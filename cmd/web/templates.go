@@ -13,7 +13,7 @@ type templateData struct {
 	CoordinatesData CoordinatesData
 	UnitData        UnitData
 	JsonValidation  JsonValidation
-	UnitConverter   UnitConverter
+	UnitConverter   UnitConverterData
 }
 
 type JsonValidation struct {
@@ -21,13 +21,14 @@ type JsonValidation struct {
 	Valid bool
 }
 
-type UnitConverter struct {
+type UnitConverterData struct {
 	Quantity   string
 	AllUnits   []string
-	Input      float64
+	Input      string
 	InputUnit  string
 	Output     float64
 	OutputUnit string
+	InputError bool
 }
 
 func newTemplateCache() (map[string]*template.Template, error) {
