@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 type CoordinatesData struct {
@@ -54,4 +55,20 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, status in
 	w.WriteHeader(status)
 
 	buf.WriteTo(w)
+}
+
+func getIp(r *http.Request) string {
+	// When deployed in Google Cloud Run, the forwarded client ip can
+	// be found in the "X-Forwarded-For" header
+	ip := r.Header.Get("X-Forwarded-For")
+
+	// if deployed locally, get ip from RemoteAddr field of request
+	if ip == "" {
+		parts := strings.Split(r.RemoteAddr, ":")
+		if len(parts) > 0 {
+			ip = parts[0]
+		}
+	}
+
+	return ip
 }
