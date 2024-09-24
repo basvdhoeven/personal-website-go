@@ -34,7 +34,7 @@ func main() {
 	unitMapData := map[string]string{
 		"length": "./config/units/length.yml",
 		"mass":   "./config/units/mass.yml",
-		"volume": "./config/units/volumen.yml",
+		"volume": "./config/units/volume.yml",
 	}
 	unitConverter.LoadConvRatesFromYaml(unitMapData)
 
