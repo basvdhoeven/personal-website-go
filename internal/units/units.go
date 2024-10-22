@@ -40,6 +40,10 @@ func (uc *UnitConverter) LoadConvRatesFromYaml(paths map[string]string) error {
 }
 
 func (uc *UnitConverter) GetAllUnits(quantity string) ([]string, error) {
+	if quantity == "temperature" {
+		return GetTempUnits(), nil
+	}
+
 	quantityData, ok := uc.convRates[quantity]
 	if !ok {
 		return nil, errors.New("could not find quantity data")
@@ -56,6 +60,10 @@ func (uc *UnitConverter) GetAllUnits(quantity string) ([]string, error) {
 }
 
 func (uc *UnitConverter) Convert(quantity, inputUnit, outputUnit string, amount float64) (float64, error) {
+	if quantity == "temperature" {
+		return ConvertTemp(amount, inputUnit, outputUnit)
+	}
+
 	quantityData, ok := uc.convRates[quantity]
 	if !ok {
 		return 0, errors.New("could not find quantity data")

@@ -19,7 +19,7 @@ func TestGetAllUnits(t *testing.T) {
 		t.Errorf("Expected no error while getting all the units")
 	}
 
-	if len(units) != 3 {
+	if len(units) != 11 {
 		t.Errorf("Got %d units, expected 3", len(units))
 	}
 }

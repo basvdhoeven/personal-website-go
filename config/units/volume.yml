@@ -1,12 +1,37 @@
-cubic decimeter: 1.0
-cubic centimeter: 0.001
-cubic meter: 1000.0
-cubic millimeter: 0.000001
-gallon (US): 3.78541
-quart (US): 0.946353
-pint (US): 0.473176
-fluid ounce (US): 0.0295735
-cup (US): 0.237
+# Metric (cubic) units
+cubic_meter: 1000.0
+cubic_decimeter: 1.0
+cubic_centimeter: 0.001
+cubic_millimeter: 0.000001
+
+# Metric (liter) units
+liter: 1.0
+centiliter: 0.01
+milliliter: 0.001
+hectoliter: 100.0
+
+# US Liquid Measure
+gallon_us: 3.78541
+quart_us: 0.946353
+pint_us: 0.473176
+cup_us: 0.237
+fluid_ounce_us: 0.0295735
+
+# Imperial Measure
+gallon_uk: 4.54609
+quart_uk: 1.13652
+pint_uk: 0.568261
+fluid_ounce_uk: 0.0284131
+
+# Cooking Measures
 tablespoon: 0.015
 teaspoon: 0.005
-liter: 1
+
+# Industrial/Commercial
+cubic_yard: 764.554858
+cubic_foot: 28.316846592
+cubic_inch: 0.016387064
+
+# Scientific
+cubic_kilometer: 1.0e12
+cubic_mile: 4.168181825e12

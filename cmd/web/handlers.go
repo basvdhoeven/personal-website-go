@@ -75,7 +75,7 @@ func (app *application) coordinatesHandler(w http.ResponseWriter, r *http.Reques
 
 func (app *application) unitHandler(w http.ResponseWriter, r *http.Request) {
 	switch quantity := path.Base(r.URL.Path); quantity {
-	case "mass", "length", "volume":
+	case "mass", "length", "volume", "temperature":
 		allUnits, err := app.unitConverter.GetAllUnits(quantity)
 
 		if err != nil {

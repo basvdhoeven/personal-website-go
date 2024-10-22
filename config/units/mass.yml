@@ -1,3 +1,18 @@
+# Imperial/US units
 pound: 0.45359237
 ounce: 0.02835
-kilogram: 1
+stone: 6.35029318
+
+# Metric units
+kilogram: 1.0
+gram: 0.001
+milligram: 0.000001
+metric_ton: 1000.0
+
+# Scientific units
+microgram: 1.0e-9
+nanogram: 1.0e-12
+atomic_mass_unit: 1.660539067e-27
+
+# Historical/Other units
+carat: 0.0002
