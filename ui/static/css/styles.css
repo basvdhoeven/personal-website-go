@@ -70,6 +70,10 @@ main a:link, main a:visited {
     color: black;
 }
 
+textarea {
+    width: 100%;
+}
+
 /* Mobile-specific styles */
 @media screen and (max-width: 768px) {
     nav {
