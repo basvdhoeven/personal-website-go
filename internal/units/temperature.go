@@ -34,7 +34,7 @@ func newTemp(val float64, unit string) (temp, error) {
 	case kelvin:
 		kelvinTemp = val
 	case celsius:
-		kelvinTemp = val + 273.15
+		kelvinTemp = val - 273.15
 	case fahrenheit:
 		kelvinTemp = (val + 459.67) * (float64(5) / 9)
 	default:
