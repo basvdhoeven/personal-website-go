@@ -4,7 +4,7 @@
     <div>
         <h1>Validate and indent JSON</h1>
         <form action="/tools/json" method="post">
-            <textarea id="json" name="json" rows="30">{{ if .JsonValidation.Data }}{{ .JsonValidation.Data }}{{ else }}[{"title":"Pablo Honey", "year":1993},{"title":"The Bends", "year":1995},{"title":"OK Computer", "year":1997},{"title":"Kid A", "year":2000},{"title":"Amnesiac", "year":2001},{"title":"Hail to the Thief", "year":2003},{"title":"In Rainbows", "year":2007},{"title":"The King of Limbs", "year":2011},{"title":"A Moon Shaped Pool", "year":2016}]{{ end }}</textarea>
+            <textarea id="json" name="json" rows="20">{{ if .JsonValidation.Data }}{{ .JsonValidation.Data }}{{ else }}[{"title":"Pablo Honey", "year":1993},{"title":"The Bends", "year":1995},{"title":"OK Computer", "year":1997},{"title":"Kid A", "year":2000},{"title":"Amnesiac", "year":2001},{"title":"Hail to the Thief", "year":2003},{"title":"In Rainbows", "year":2007},{"title":"The King of Limbs", "year":2011},{"title":"A Moon Shaped Pool", "year":2016}]{{ end }}</textarea>
             <br>
             <input type="submit" value="Submit">
         </form>
