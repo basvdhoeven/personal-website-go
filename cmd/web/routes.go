@@ -21,6 +21,7 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("POST /tools/unit/", app.unitHandlerPost)
 	mux.HandleFunc("GET /tools/json", app.validateJson)
 	mux.HandleFunc("POST /tools/json", app.validateJsonPost)
+	mux.HandleFunc("GET /tools/quotes/", app.quotesHandler)
 
 	return app.recoverPanic(app.logRequest(mux))
 }

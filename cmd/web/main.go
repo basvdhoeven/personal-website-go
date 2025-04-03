@@ -9,13 +9,15 @@ import (
 	"os"
 	"time"
 
+	"github.com/basvdhoeven/personal-website-go/internal/quotes"
 	"github.com/basvdhoeven/personal-website-go/internal/units"
 )
 
 type application struct {
-	logger        *slog.Logger
-	templateCache map[string]*template.Template
-	unitConverter *units.UnitConverter
+	logger         *slog.Logger
+	templateCache  map[string]*template.Template
+	unitConverter  *units.UnitConverter
+	quoteRetriever *quotes.QuoteRetriever
 }
 
 func main() {
@@ -38,10 +40,14 @@ func main() {
 	}
 	unitConverter.LoadConvRatesFromYaml(unitMapData)
 
+	quoteRetriever := quotes.NewQuotesRetriever()
+	quoteRetriever.LoadQuotesFromTextFiles("./config/quotes")
+
 	app := &application{
 		logger:        logger,
 		templateCache: templateCache,
 		unitConverter: unitConverter,
+		quoteRetriever: quoteRetriever,
 	}
 
 	tlsConfig := &tls.Config{

@@ -26,6 +26,22 @@ func (app *application) ipHandler(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, http.StatusOK, "ip.tmpl", templateData{Ip: getIp(r)})
 }
 
+func (app *application) quotesHandler(w http.ResponseWriter, r *http.Request) {
+
+	switch category := path.Base(r.URL.Path); category {
+	case "finance", "books", "movies":
+		quote, err := app.quoteRetriever.GetRandom(category)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+
+		app.render(w, r, http.StatusOK, "quote.tmpl", templateData{Quote: quote})
+	default:
+		app.render(w, r, http.StatusOK, "quotes_landing.tmpl", templateData{})
+	}
+}
+
 func (app *application) coordinatesHandler(w http.ResponseWriter, r *http.Request) {
 	data := CoordinatesData{
 		ParseError:  make(map[string]string),

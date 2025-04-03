@@ -14,6 +14,7 @@ type templateData struct {
 	UnitData        UnitData
 	JsonValidation  JsonValidation
 	UnitConverter   UnitConverterData
+	Quote           string
 }
 
 type JsonValidation struct {
