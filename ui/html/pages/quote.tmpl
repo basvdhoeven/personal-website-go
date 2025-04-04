@@ -2,6 +2,10 @@
 
 {{define "main"}}
     <div>
-        <h1>{{.Quote}}</h1>
+        <h1>{{.QuoteCategory}} Quote</h1>
+       {{.Quote}}
+    </div>
+    <div class="boxes clickable">
+            <a onClick="window.location.reload()">Random Quote</a>
     </div>
 {{end}}

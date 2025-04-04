@@ -8,6 +8,8 @@ import (
 	"strconv"
 
 	"github.com/basvdhoeven/personal-website-go/internal/coords"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 func (app *application) homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -35,8 +37,8 @@ func (app *application) quotesHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
-
-		app.render(w, r, http.StatusOK, "quote.tmpl", templateData{Quote: quote})
+		categoryTitle := cases.Title(language.Und, cases.NoLower).String(category)
+		app.render(w, r, http.StatusOK, "quote.tmpl", templateData{Quote: quote, QuoteCategory: categoryTitle})
 	default:
 		app.render(w, r, http.StatusOK, "quotes_landing.tmpl", templateData{})
 	}
